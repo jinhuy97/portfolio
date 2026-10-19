@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>포트폴리오</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // 화면이 깜빡이지 않도록 다크/라이트 모드를 먼저 적용
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      var dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    })();
+  </script>
+</head>
+<body>
+  <!-- 상단 메뉴 -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="nav-logo" href="#top" id="nav-name"></a>
+      <nav class="nav-links">
+        <a href="#about">이야기</a>
+        <a href="#featured">대표작</a>
+        <a href="#works">공연</a>
+        <a href="#career">경력</a>
+        <a href="#education">학력</a>
+        <a href="#contact">연락</a>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드 전환">◐</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- 첫 화면 -->
+    <section class="hero container">
+      <p class="hero-eyebrow" id="hero-eyebrow"></p>
+      <h1 class="hero-name" id="hero-name"></h1>
+      <p class="hero-role" id="hero-role"></p>
+      <p class="hero-intro" id="hero-intro"></p>
+      <dl class="hero-stats" id="hero-stats"></dl>
+    </section>
+
+    <!-- 01 소개 -->
+    <section class="section container reveal" id="about">
+      <h2 class="section-title"><span>01</span>나의 이야기</h2>
+      <!-- 이야기책: 페이지는 script.js가 content.js의 이야기로 채워요 -->
+      <div class="book-wrap">
+        <div class="book" id="book" tabindex="0" role="region" aria-roledescription="이야기책" aria-label="나의 이야기 (좌우 화살표로 넘기기)"></div>
+        <div class="book-controls">
+          <button class="book-btn" id="book-prev" type="button" aria-label="이전 페이지">←</button>
+          <span class="book-count" id="book-count" aria-live="polite"></span>
+          <button class="book-btn" id="book-next" type="button" aria-label="다음 페이지">→</button>
+        </div>
+      </div>
+      <dl class="about-facts" id="about-facts"></dl>
+    </section>
+
+    <!-- 02 대표작 -->
+    <section class="section container reveal" id="featured">
+      <h2 class="section-title"><span>02</span>대표작</h2>
+      <div class="featured" id="featured-list"></div>
+    </section>
+
+    <!-- 03 전체 공연 -->
+    <section class="section container reveal" id="works">
+      <h2 class="section-title"><span>03</span>공연</h2>
+      <div class="filters" id="filters" role="group" aria-label="역할별 보기"></div>
+      <div id="works-list"></div>
+    </section>
+
+    <!-- 04 경력 · 활동 -->
+    <section class="section container reveal" id="career">
+      <h2 class="section-title"><span>04</span>경력 · 활동</h2>
+      <div class="career" id="career-list"></div>
+    </section>
+
+    <!-- 05 학력 · 자격 -->
+    <section class="section container reveal" id="education">
+      <h2 class="section-title"><span>05</span>학력 · 자격</h2>
+      <div class="edu-grid">
+        <div>
+          <h3 class="sub-title">학력 · 교육</h3>
+          <ol class="timeline" id="education-list"></ol>
+        </div>
+        <div>
+          <h3 class="sub-title">자격</h3>
+          <ul class="certs" id="cert-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 연락 -->
+    <section class="section container reveal contact" id="contact">
+      <h2 class="section-title"><span>06</span>연락</h2>
+      <p class="contact-message" id="contact-message"></p>
+      <a class="btn btn-primary" id="contact-email"></a>
+      <div class="contact-links" id="contact-links"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p id="footer-text"></p>
+      <p class="footer-note">공연 포스터의 저작권은 각 제작 기관에 있습니다.</p>
+    </div>
+  </footer>
+
+  <!-- 프로그램북 크게 보기 -->
+  <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+    <div class="viewer-top">
+      <p class="viewer-title" id="viewer-title"></p>
+      <button class="viewer-close" id="viewer-close" type="button" aria-label="닫기">✕</button>
+    </div>
+    <div class="viewer-stage">
+      <button class="viewer-nav" id="viewer-prev" type="button" aria-label="이전 사진">←</button>
+      <figure class="viewer-figure">
+        <div class="viewer-frame">
+          <img id="viewer-img" alt="">
+          <span class="viewer-mark" id="viewer-mark" aria-hidden="true"></span>
+        </div>
+        <figcaption id="viewer-caption"></figcaption>
+      </figure>
+      <button class="viewer-nav" id="viewer-next" type="button" aria-label="다음 사진">→</button>
+    </div>
+    <div class="viewer-thumbs" id="viewer-thumbs"></div>
+    <p class="viewer-credit" id="viewer-credit"></p>
+  </dialog>
+
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
