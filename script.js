@@ -623,10 +623,41 @@
   const contact = C.contact || {};
   byId("contact-message").textContent = contact.message || "";
   if (contact.email) {
-    byId("contact-email").textContent = contact.email;
-    byId("contact-email").href = "mailto:" + contact.email;
+    byId("contact-email").textContent = "✉ " + contact.email;
+    byId("contact-email").href = "mailto:" + contact.email +
+      (contact.subject ? "?subject=" + encodeURIComponent(contact.subject) : "");
+
+    // 메일 앱이 없는 컴퓨터를 위해 주소 복사 버튼
+    const hint = byId("contact-hint");
+    byId("contact-copy").addEventListener("click", function () {
+      function done() { hint.textContent = "메일 주소를 복사했어요: " + contact.email; }
+      function fail() { hint.textContent = "복사가 안 되면 직접 적어주세요: " + contact.email; }
+      // 예전 방식 복사 (새 방식이 막힌 브라우저용)
+      function legacyCopy() {
+        let ok = false;
+        try {
+          const area = el("textarea");
+          area.value = contact.email;
+          area.setAttribute("readonly", "");
+          area.style.position = "fixed";
+          area.style.opacity = "0";
+          document.body.appendChild(area);
+          area.select();
+          ok = document.execCommand("copy");
+          area.remove();
+        } catch (e) {}
+        ok ? done() : fail();
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(contact.email).then(done, legacyCopy);
+      } else {
+        legacyCopy();
+      }
+    });
   } else {
     byId("contact-email").hidden = true;
+    byId("contact-copy").hidden = true;
+    byId("contact-hint").hidden = true;
   }
   (contact.links || []).forEach(function (link) {
     if (link.url) byId("contact-links").appendChild(externalLink(link.label, link.url));

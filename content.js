@@ -504,6 +504,7 @@ const CONTENT = {
   contact: {
     message: "함께 무대를 만들거나, 음악으로 사람을 돕는 일을 함께하고 싶다면 편하게 연락 주세요.",
     email: "97bietbiet@naver.com",
+    subject: "[포트폴리오 문의] ", // 메일 앱이 열릴 때 제목에 자동으로 들어가요
     links: [
       { label: "Instagram", url: "" }, // ✏️ 예: "https://www.instagram.com/아이디" (비워두면 숨겨져요)
     ],
